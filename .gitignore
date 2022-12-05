@@ -10,8 +10,10 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
-# KYLE: Added UserSettings 12/04
+# KYLE: Added UserSettings, .vsconfig, and .DS_Store 12/04
 /[Uu]ser[Ss]ettings/
+.DS_Store
+.vsconfig
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
