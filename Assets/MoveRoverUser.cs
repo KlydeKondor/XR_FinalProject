@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveRoverUser : MonoBehaviour
 {
+    // PUBLIC DATA MEMBERS
     // Public WheelColliders
     public WheelCollider wheelFR;
     public WheelCollider wheelMR;
@@ -12,21 +13,37 @@ public class MoveRoverUser : MonoBehaviour
     public WheelCollider wheelML;
     public WheelCollider wheelBL;
 
+    // Public speed variables
     public float moveSpeed;
     public float rotSpeed;
 
+    // PRIVATE DATA MEMBERS
     private float curAngle = 0f;
     private float maxAngle = 45f;
+    private const int MAX_GEAR = 5;
+    private const int MIN_GEAR = 1;
+    private int gear = 1;
+    private float[] torqueArray = new float[MAX_GEAR];
 
     // Start is called before the first frame update
     void Start()
     {
+        // Set the steerAngle for each wheel
         wheelFR.steerAngle = 0.45f;
         wheelMR.steerAngle = 0.45f;
         wheelBR.steerAngle = 0.45f;
         wheelFL.steerAngle = 0.45f;
         wheelML.steerAngle = 0.45f;
         wheelBL.steerAngle = 0.45f;
+
+        // Set the torque for each gear
+        float scale = 1f;
+        for (int i = 0; i < torqueArray.Length; i++)
+        {
+            // Set this torque according to moveSpeed and scale
+            torqueArray[i] = scale * moveSpeed;
+            scale += 0.5f;
+        }
     }
 
     // Update is called once per frame
@@ -74,7 +91,7 @@ public class MoveRoverUser : MonoBehaviour
         }
 
         // Apply brakes
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.B))
         {
             ApplyBrakes(dT);
         }
@@ -82,11 +99,28 @@ public class MoveRoverUser : MonoBehaviour
         {
             ApplyBrakes(dT, true);
         }
+
+        // Grab or drop a gear
+        if (Input.GetKeyDown(KeyCode.G) && gear < MAX_GEAR)
+        {
+            gear++;
+            Debug.Log("Up to " + gear.ToString());
+
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && gear > MIN_GEAR)
+        {
+            gear--;
+            Debug.Log("Down to " + gear.ToString());
+        }
+        else
+        {
+            Debug.Log("At limit of " + gear.ToString());
+        }
     }
 
     private void MoveRover(float dT, bool isFwd = true, bool isNeut = false)
     {
-        float torque = moveSpeed * dT;
+        float torque = torqueArray[gear - 1] * dT;
 
         // Apply torque according to input
         if (isFwd)

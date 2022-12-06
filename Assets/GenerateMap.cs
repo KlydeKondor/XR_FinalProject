@@ -13,7 +13,7 @@ public class GenerateMap : MonoBehaviour
 
     // PRIVATE DATA MEMBERS
     // Debug flag
-    bool isDebug = true;
+    bool isDebug = false;
     
     // Bounds for waypoints/paths
     private const int NUM_WAYPOINTS_TEST = 9;
