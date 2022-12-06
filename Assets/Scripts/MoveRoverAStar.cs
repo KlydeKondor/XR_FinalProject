@@ -5,6 +5,10 @@ using UnityEngine;
 public class MoveRoverAStar : MonoBehaviour
 {
     // PRIVATE DATA MEMBERS
+    // Flag for whether the movement should be executed
+    private bool autoMove = true;
+    private int index = 0;
+
     // Struct to facilitate the priority queue
     private struct NodeCost
     {
@@ -28,6 +32,7 @@ public class MoveRoverAStar : MonoBehaviour
     private float[] hFunc;
     private int[] origins;
 
+
     // PUBLIC ACCESSORS
     public GameObject[] Waypoints
     {
@@ -44,9 +49,6 @@ public class MoveRoverAStar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hello, world!");
-        //TestEnqueue();
-
         // Define gFunc (path cost) and initialize hFunc (array of heuristic costs)
         gFunc = new float[waypoints.Length];
         GetActualCosts();
@@ -63,7 +65,15 @@ public class MoveRoverAStar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // If the path produced by A* should be traversed, move the SEV
+        if (autoMove && optimalPath.Count > 0)
+        {
+            Debug.Log("HIIIIIIIII");
+            Debug.Log(optimalPath.Count);
+            int curNodeIndex = optimalPath[index];
+            GameObject curNode = waypoints[curNodeIndex];
+            Vector3.MoveTowards(this.transform.position, curNode.transform.position, 10f);
+        }
     }
     
     bool AStar()
@@ -260,6 +270,16 @@ public class MoveRoverAStar : MonoBehaviour
                 q.Remove(q[i]);
                 break;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // If the auto-movement procedure is occurring and other is a waypoint, remove other
+        if (autoMove && other.tag == "Waypoint")
+        {
+            Destroy(other.gameObject);
+            index++;
         }
     }
 }

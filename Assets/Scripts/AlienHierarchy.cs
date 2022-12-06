@@ -10,6 +10,5 @@ public class AlienHierarchy : MonoBehaviour
         if (other.gameObject == moonrock || other.gameObject == moonrock1 || other.gameObject == moonrock2) {
             other.transform.parent = alien.transform;
         }        
-        Debug.Log("error");
     } 
 }

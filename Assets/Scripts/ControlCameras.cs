@@ -13,8 +13,8 @@ public class ControlCameras : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Initial buffer between the SEV and its camera
-        buffer = sevCamera.transform.position - sev.transform.position;
+        // Set the first-person camera's parent as the SEV
+        sevCamera.transform.parent = sev.transform;
     }
 
     // Update is called once per frame
@@ -27,9 +27,5 @@ public class ControlCameras : MonoBehaviour
             mainCamera.SetActive(!mainCamera.activeSelf);
             sevCamera.SetActive(!sevCamera.activeSelf);
         }
-
-        // Set the sevCamera's position to the SEV's position plus a buffer
-        sevCamera.transform.position = sev.transform.position + buffer;
-        sevCamera.transform.rotation = sev.transform.localRotation;
     }
 }

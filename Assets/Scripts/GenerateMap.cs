@@ -13,7 +13,7 @@ public class GenerateMap : MonoBehaviour
 
     // PRIVATE DATA MEMBERS
     // Debug flag
-    bool isDebug = false;
+    bool isDebug = true;
     
     // Bounds for waypoints/paths
     private const int NUM_WAYPOINTS_TEST = 9;
@@ -233,14 +233,25 @@ public class GenerateMap : MonoBehaviour
         edges[0].Add(2);
         edges[0].Add(3);
         edges[0].Add(4);
+        edges[1].Add(0);
         edges[1].Add(5);
+        edges[2].Add(0);
         edges[2].Add(5);
+        edges[3].Add(0);
         edges[3].Add(4);
         edges[3].Add(7);
+        edges[4].Add(0);
         edges[4].Add(7);
+        edges[5].Add(1);
+        edges[5].Add(2);
         edges[5].Add(6);
+        edges[6].Add(5);
         edges[6].Add(8);
+        edges[7].Add(3);
+        edges[7].Add(4);
         edges[7].Add(8);
+        edges[8].Add(6);
+        edges[8].Add(7);
 
         // Create edges
         for (int i = 0; i < waypoints.Length - 1; i++)
