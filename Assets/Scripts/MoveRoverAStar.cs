@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveRoverAStar : MonoBehaviour
 {
     // PRIVATE DATA MEMBERS
-    private bool autoMove = false;
+    private bool autoMove = true; // Set to false if user should decide when to show the path traversal
     private int index = 0;
     private GameObject curNode;
 
@@ -72,7 +72,7 @@ public class MoveRoverAStar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If Shift + A + * is pressed, set autoMove to true
+        // If Shift + A + * is pressed, set autoMove to true (currently not being used; button generates map and moves rover)
         if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Alpha8))
         {
             autoMove = true;
@@ -195,21 +195,6 @@ public class MoveRoverAStar : MonoBehaviour
         }
     }
 
-    void TestEnqueue()
-    {
-        List<NodeCost> nodes = new List<NodeCost>();
-        NodeCost nodeCost = new NodeCost(0, 10f);
-        PriorityEnqueue(ref nodes, ref nodeCost);
-        nodeCost = new NodeCost(0, 10f);
-        PriorityEnqueue(ref nodes, ref nodeCost);
-        nodeCost = new NodeCost(0, 20f);
-        PriorityEnqueue(ref nodes, ref nodeCost);
-        nodeCost = new NodeCost(0, 5f);
-        PriorityEnqueue(ref nodes, ref nodeCost);
-        nodeCost = new NodeCost(0, 7f);
-        PriorityEnqueue(ref nodes, ref nodeCost);
-    }
-
     void PriorityEnqueue(ref List<NodeCost> q, ref NodeCost elem)
     {
         // Indexing variables
@@ -292,5 +277,20 @@ public class MoveRoverAStar : MonoBehaviour
             Destroy(other.gameObject);
             index++;
         }
+    }
+
+    void TestEnqueue()
+    {
+        List<NodeCost> nodes = new List<NodeCost>();
+        NodeCost nodeCost = new NodeCost(0, 10f);
+        PriorityEnqueue(ref nodes, ref nodeCost);
+        nodeCost = new NodeCost(0, 10f);
+        PriorityEnqueue(ref nodes, ref nodeCost);
+        nodeCost = new NodeCost(0, 20f);
+        PriorityEnqueue(ref nodes, ref nodeCost);
+        nodeCost = new NodeCost(0, 5f);
+        PriorityEnqueue(ref nodes, ref nodeCost);
+        nodeCost = new NodeCost(0, 7f);
+        PriorityEnqueue(ref nodes, ref nodeCost);
     }
 }

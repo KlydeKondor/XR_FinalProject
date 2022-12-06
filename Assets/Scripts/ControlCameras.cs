@@ -10,8 +10,6 @@ public class ControlCameras : MonoBehaviour
     public GameObject splitCameraTwo;
     public GameObject sev;
 
-    private Vector3 buffer = new Vector3();
-
     // Start is called before the first frame update
     void Start()
     {

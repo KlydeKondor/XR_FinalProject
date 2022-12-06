@@ -143,13 +143,11 @@ public class MoveRoverUser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && gear < MAX_GEAR)
         {
             gear++;
-            Debug.Log("Up to " + gear.ToString());
 
         }
         else if (Input.GetKeyDown(KeyCode.D) && gear > MIN_GEAR)
         {
             gear--;
-            Debug.Log("Down to " + gear.ToString());
         }
 
         // Change which pairs of wheels turn
