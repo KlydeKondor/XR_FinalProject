@@ -13,7 +13,7 @@ public class GenerateMap : MonoBehaviour
 
     // PRIVATE DATA MEMBERS
     // Debug flag
-    bool isDebug = true;
+    bool isDebug = false;
     
     // Bounds for waypoints/paths
     private const int NUM_WAYPOINTS_TEST = 9;
@@ -59,7 +59,7 @@ public class GenerateMap : MonoBehaviour
         // Pass the map's references over to the A-Star controller
         roverCtrl.Waypoints = waypoints;
         roverCtrl.Edges = edges;
-        roverCtrl.gameObject.SetActive(true);
+        roverCtrl.enabled = true;
     }
 
     // Update is called once per frame

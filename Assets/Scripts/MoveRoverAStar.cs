@@ -5,13 +5,14 @@ using UnityEngine;
 public class MoveRoverAStar : MonoBehaviour
 {
     // PRIVATE DATA MEMBERS
-    // Flag for whether the movement should be executed
-    private bool autoMove = true;
+    private bool autoMove = false;
     private int index = 0;
+    private GameObject curNode;
 
     // Struct to facilitate the priority queue
     private struct NodeCost
     {
+        // Public constructor (only visible within this class due to the outer private designation
         public NodeCost(int node, float cost)
         {
             Node = node;
@@ -39,11 +40,17 @@ public class MoveRoverAStar : MonoBehaviour
         get { return waypoints; }
         set { waypoints = value; }
     }
-
+    
     public List<int>[] Edges
     {
         get { return edges; }
         set { edges = value; }
+    }
+
+    public bool AutoMove
+    {
+        get { return autoMove; }
+        set { autoMove = value; }
     }
 
     // Start is called before the first frame update
@@ -65,14 +72,18 @@ public class MoveRoverAStar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If the path produced by A* should be traversed, move the SEV
-        if (autoMove && optimalPath.Count > 0)
+        // If Shift + A + * is pressed, set autoMove to true
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Alpha8))
         {
-            Debug.Log("HIIIIIIIII");
-            Debug.Log(optimalPath.Count);
+            autoMove = true;
+        }
+
+        // If the path produced by A* should be traversed, move the SEV
+        if (autoMove && index < optimalPath.Count)
+        {
             int curNodeIndex = optimalPath[index];
-            GameObject curNode = waypoints[curNodeIndex];
-            Vector3.MoveTowards(this.transform.position, curNode.transform.position, 10f);
+            curNode = waypoints[curNodeIndex];
+            this.transform.position = Vector3.MoveTowards(this.transform.position, curNode.transform.position, 0.5f);
         }
     }
     
@@ -276,7 +287,7 @@ public class MoveRoverAStar : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If the auto-movement procedure is occurring and other is a waypoint, remove other
-        if (autoMove && other.tag == "Waypoint")
+        if (autoMove && other.gameObject == curNode)
         {
             Destroy(other.gameObject);
             index++;

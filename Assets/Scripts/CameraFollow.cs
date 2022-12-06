@@ -21,6 +21,10 @@ public class CameraFollow : MonoBehaviour
         {
             GetComponent<Camera>().enabled = true;
         }
+        else
+        {
+            GetComponent<Camera>().enabled = false;
+        }
     }
 
     // Update is called once per frame

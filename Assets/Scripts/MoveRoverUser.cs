@@ -169,6 +169,7 @@ public class MoveRoverUser : MonoBehaviour
         }
     }
 
+    // Move the SEV forward or backward, or turn the engine off
     private void MoveRover(float dT, bool isFwd = true, bool isNeut = false)
     {
         float torque = torqueArray[gear - 1] * dT;
@@ -206,6 +207,7 @@ public class MoveRoverUser : MonoBehaviour
         }
     }
 
+    // Turn a pair of wheels incrementally
     private void TurnRover(float dT, int pair, bool isRt = true, bool isNeut = false)
     {
         float incrAngle = rotSpeed * dT;
@@ -219,20 +221,22 @@ public class MoveRoverUser : MonoBehaviour
                 // Increase the current angle
                 curAngle[pair] = (curAngle[pair] + incrAngle > maxAngle ? maxAngle : curAngle[pair] + incrAngle);
 
-                // TODO: Toggle steering for middle and back wheels
                 // Right = positive steering angle
                 if (pair == 0)
                 {
+                    // Back
                     wheelBL.steerAngle += incrAngle;
                     wheelBR.steerAngle += incrAngle;
                 }
                 else if (pair == 1)
                 {
+                    // Middle
                     wheelML.steerAngle += incrAngle;
                     wheelMR.steerAngle += incrAngle;
                 }
                 else
                 {
+                    // Front
                     wheelFL.steerAngle += incrAngle;
                     wheelFR.steerAngle += incrAngle;
                 }
@@ -242,19 +246,22 @@ public class MoveRoverUser : MonoBehaviour
                 // Decrease the current angle
                 curAngle[pair] = (curAngle[pair] - incrAngle < -maxAngle ? -maxAngle : curAngle[pair] - incrAngle);
 
-                // TODO: Toggle steering for middle and back wheels
+                // Check which pair is being turned
                 if (pair == 0)
                 {
+                    // Back
                     wheelBL.steerAngle -= incrAngle;
                     wheelBR.steerAngle -= incrAngle;
                 }
                 else if (pair == 1)
                 {
+                    // Middle
                     wheelML.steerAngle -= incrAngle;
                     wheelMR.steerAngle -= incrAngle;
                 }
                 else
                 {
+                    // Front
                     wheelFL.steerAngle -= incrAngle;
                     wheelFR.steerAngle -= incrAngle;
                 }
@@ -275,22 +282,26 @@ public class MoveRoverUser : MonoBehaviour
             // Update the steering angle with the curAngle for this pair of wheels
             if (pair == 0)
             {
+                // Back
                 wheelBL.steerAngle = curAngle[pair];
                 wheelBR.steerAngle = curAngle[pair];
             }
             else if (pair == 1)
             {
+                // Middle
                 wheelML.steerAngle = curAngle[pair];
                 wheelMR.steerAngle = curAngle[pair];
             }
             else
             {
+                // Front
                 wheelFL.steerAngle = curAngle[pair];
                 wheelFR.steerAngle = curAngle[pair];
             }
         }
     }
 
+    // Stop the SEV's forward or backward movement
     private void ApplyBrakes(float dT, bool releaseBrakes = false)
     {
         float torque = torqueArray[gear - 1] * dT;
