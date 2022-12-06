@@ -25,11 +25,17 @@ public class SEVzoomcamcontrol : MonoBehaviour
     public void ButtonClicked()
     {
         counter++;
-        if (counter == 1){
+        if (counter == 1)
+        {
             zoomActive = "y";
             source.PlayOneShot(clip);
         }
-        else if (counter == 2){
+        else if (counter % 2 == 1)
+        {
+            zoomActive = "y";
+        }
+        else
+        {
             zoomActive = "n";
         }
     }

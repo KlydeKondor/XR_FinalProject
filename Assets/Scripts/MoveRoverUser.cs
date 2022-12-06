@@ -5,6 +5,9 @@ using UnityEngine;
 public class MoveRoverUser : MonoBehaviour
 {
     // PUBLIC DATA MEMBERS
+    // Public GameObject for outermost SEV object
+    public GameObject sev;
+    
     // Public WheelColliders
     public WheelCollider wheelFR;
     public WheelCollider wheelMR;
@@ -12,6 +15,20 @@ public class MoveRoverUser : MonoBehaviour
     public WheelCollider wheelFL;
     public WheelCollider wheelML;
     public WheelCollider wheelBL;
+
+    // Public meshes
+    public GameObject wheelMeshFR_In;
+    public GameObject wheelMeshFR_Out;
+    public GameObject wheelMeshMR_In;
+    public GameObject wheelMeshMR_Out;
+    public GameObject wheelMeshBR_In;
+    public GameObject wheelMeshBR_Out;
+    public GameObject wheelMeshFL_In;
+    public GameObject wheelMeshFL_Out;
+    public GameObject wheelMeshML_In;
+    public GameObject wheelMeshML_Out;
+    public GameObject wheelMeshBL_In;
+    public GameObject wheelMeshBL_Out;
 
     // Public speed variables
     public float moveSpeed;
@@ -29,6 +46,10 @@ public class MoveRoverUser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Set the outer SEV object's transform to be a child of this transform
+        sev.transform.parent = this.transform;
+        sev.GetComponent<BoxCollider>().transform.parent = this.transform;
+        
         // Set the torque for each gear
         float scale = 1f;
         for (int i = 0; i < torqueArray.Length; i++)
@@ -167,6 +188,9 @@ public class MoveRoverUser : MonoBehaviour
             wheelArray[1] = true;
             wheelArray[2] = true;
         }
+
+        // Update the wheel meshes
+        //UpdateMeshes(dT);
     }
 
     // Move the SEV forward or backward, or turn the engine off
@@ -327,5 +351,40 @@ public class MoveRoverUser : MonoBehaviour
             wheelML.brakeTorque = 0;
             wheelBL.brakeTorque = 0;
         }
+    }
+
+    void UpdateMeshes(float dT)
+    {
+        // Spin the wheels (https://forum.unity.com/threads/simple-way-of-getting-wheel-mesh-to-rotate-with-wheel-colliders.480316/)
+        // RPM / 60 = Revolutions per second; RPS * 360 = Degrees per second; DPS * dT = Degrees at a given frame
+        wheelMeshFL_In.transform.Rotate(0, wheelFL.rpm * 6 * dT, 0);
+        wheelMeshFL_Out.transform.Rotate(0, wheelFL.rpm * 6 * dT, 0);
+        wheelMeshFR_In.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshFR_Out.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshML_In.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshML_Out.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshMR_In.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshMR_Out.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshBL_In.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshBL_Out.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshBR_In.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+        wheelMeshBR_Out.transform.Rotate(0, wheelFR.rpm * 6 * dT, 0);
+
+
+        // Update the azimuth of the wheels
+        /*
+        wheelMeshFL_In.transform.rotation.Set() = wheelFL.transform.rotation;
+        wheelMeshFL_Out.transform.rotation = wheelFL.transform.rotation;
+        wheelMeshFR_In.transform.rotation = wheelFR.transform.rotation;
+        wheelMeshFR_Out.transform.rotation = wheelFR.transform.rotation;
+        wheelMeshML_In.transform.rotation = wheelML.transform.rotation;
+        wheelMeshML_Out.transform.rotation = wheelML.transform.rotation;
+        wheelMeshMR_In.transform.rotation = wheelMR.transform.rotation;
+        wheelMeshMR_Out.transform.rotation = wheelMR.transform.rotation;
+        wheelMeshBL_In.transform.rotation = wheelBL.transform.rotation;
+        wheelMeshBL_Out.transform.rotation = wheelBL.transform.rotation;
+        wheelMeshBR_In.transform.rotation = wheelBR.transform.rotation;
+        wheelMeshBR_Out.transform.rotation = wheelBR.transform.rotation;
+        */
     }
 }
